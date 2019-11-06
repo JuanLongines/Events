@@ -7,14 +7,17 @@ import events.com.longines.activities.MainActivity;
 import events.com.longines.interfaces.Preferences;
 
 public class AppCore extends Application {
-	@Override
-	public void onCreate() {
-		super.onCreate();
-		SharedPref.init(getApplicationContext());
-		if (SharedPref.read(Preferences.USERLOGGED, false)) {
-			Intent i = new Intent(this, MainActivity.class);
-			startActivity(i);
-		}
+    SharedPref sharedPref;
 
-	}
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        Injector.setup(this);
+        sharedPref = Injector.provideSharedPref();
+        if (sharedPref.read(Preferences.USERLOGGED, false)) {
+            Intent i = new Intent(this, MainActivity.class);
+            startActivity(i);
+        }
+
+    }
 }
